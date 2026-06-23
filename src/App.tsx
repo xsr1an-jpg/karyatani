@@ -15,7 +15,7 @@ import Footer from './components/Footer';
 import FloatingWhatsapp from './components/FloatingWhatsapp';
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode,] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function App() {
             : 'bg-[#f6f2ea] text-[#2f2f2f]'
         }`}
       >
-        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+       <Navbar />
         <HeroSection loading={loading} />
         <AboutSection darkMode={darkMode} />
         <VisionMission />
