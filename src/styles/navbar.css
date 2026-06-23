@@ -1,12 +1,10 @@
 /* =========================
    NAVBAR
 ========================= */
+
 :root {
   --primary: #519A44;
-  --primary-light: #519A44;
 }
-
-
 
 .navbar-shell {
   position: fixed;
@@ -16,46 +14,30 @@
 
   z-index: 9999;
 
-  /* glass */
-  background: rgba(246, 242, 234, 0.55);
+  background: rgba(255, 255, 255, 0.12);
 
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
 
-  border-bottom: 1px solid rgba(255,255,255,.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
-  box-shadow: 0 8px 32px rgba(0,0,0,.08);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.08);
 
-  transition:
-    background .3s ease,
-    backdrop-filter .3s ease;
+  transition: all .3s ease;
 }
-
-.navbar-light {
-  background: rgba(246, 242, 234, 0.78);
-}
-
-/* =========================
-   CONTAINER
-========================= */
 
 .navbar-container {
   max-width: 1400px;
-
   height: 78px;
 
   margin: 0 auto;
-
   padding: 0 28px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-
-/* =========================
-   BRAND
-========================= */
 
 .navbar-brand {
   display: flex;
@@ -76,32 +58,29 @@
 .navbar-title {
   font-size: 1.6rem;
   font-weight: 800;
-  color: var(--primary);
   letter-spacing: 1px;
+  color: var(--primary);
 }
 
 .navbar-subtitle {
   margin-top: 4px;
 
-  font-size: 0.70rem;
+  font-size: .70rem;
   letter-spacing: 2px;
-
   text-transform: uppercase;
 
   color: #DD8233;
 }
 
-/* =========================
-   DESKTOP MENU
-========================= */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+}
 
 .navbar-menu {
   display: flex;
   align-items: center;
-
   gap: 42px;
-
-  margin-left: auto;
 }
 
 .navbar-link {
@@ -111,10 +90,9 @@
   font-weight: 600;
 
   text-decoration: none;
-
   color: #179c00;
 
-  transition: 0.25s;
+  transition: .25s;
 }
 
 .navbar-link:hover {
@@ -126,9 +104,9 @@
 
   position: absolute;
 
+left: 0;
   bottom: -8px;
-  left: 0;
-
+  
   width: 0;
   height: 2px;
 
@@ -140,10 +118,6 @@
 .navbar-link:hover::after {
   width: 100%;
 }
-
-/* =========================
-   MOBILE BUTTON
-========================= */
 
 .menu-button {
   display: none;
@@ -163,6 +137,8 @@
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 
+  cursor: pointer;
+
   transition: .25s;
 }
 
@@ -170,16 +146,13 @@
   transform: scale(1.05);
 }
 
-/* =========================
-   MOBILE MENU
-========================= */
-
 .navbar-mobile-menu {
-  border-top: 1px solid rgba(0,0,0,.08);
+  background: rgba(255,255,255,.15);
 
   backdrop-filter: blur(20px);
+-webkit-backdrop-filter: blur(20px);
 
-  background: inherit;
+  border-top: 1px solid rgba(255,255,255,.15);
 }
 
 .mobile-links {
@@ -207,7 +180,7 @@
 }
 
 /* =========================
-   TABLET & MOBILE
+   TABLET
 ========================= */
 
 @media (max-width: 1023px) {
@@ -233,16 +206,16 @@
   .navbar-title {
     font-size: 1rem;
   }
+
   .navbar-subtitle {
   display: block;
-
-  font-size: 0.66rem;
+  font-size: .66rem;
   letter-spacing: 1.5px;
 }
 }
 
 /* =========================
-   SMALL MOBILE
+   MOBILE
 ========================= */
 
 @media (max-width: 480px) {
@@ -258,9 +231,9 @@
   }
 
   .navbar-title {
+margin-top: 11px;
     font-size: 1.1rem;
-    margin-top: 11px;
-  }
+      }
 
   .menu-button {
     width: 42px;
