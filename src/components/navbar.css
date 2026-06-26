@@ -1,0 +1,192 @@
+/* ==========================================================================
+   MAIN NAVBAR COMPONENT
+   ========================================================================== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 78px; /* Fallback default jika var(--navbar-h) tidak aktif */
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, .08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.078);
+  transition:
+    background .4s ease,
+    backdrop-filter .4s ease,
+    box-shadow .4s ease;
+}
+
+.navbar__inner {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* ==========================================================================
+   BRAND LOGO & TITLES
+   ========================================================================== */
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.navbar__logo-img {
+  width: 53px;
+  height: 53px;
+  object-fit: contain;
+}
+
+.navbar__brand-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.2;
+}
+
+.navbar__logo-text {
+  font-family: var(--font-display), sans-serif;
+  font-size: 20px;
+  color: #386031;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.navbar__subtitle {
+  font-size: 0.75rem;
+  color: #df7d37;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.navbar--scrolled .navbar__subtitle {
+  color: #df7d37; 
+}
+
+/* ==========================================================================
+   DESKTOP LINKS NAVIGATION
+   ========================================================================== */
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto; /* Mendorong link menu mepet ke kanan */
+}
+
+.navbar__link {
+  padding: 8px 16px;
+  border-radius: 999px; /* Pengganti var(--radius-full) jika tidak ada */
+  font-size: 14px;
+  font-weight: 600;
+  color: #179c00;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.navbar__link:hover {
+  color: #386031;
+  background: rgba(81, 154, 68, 0.1); /* Pengganti var(--accent-soft) */
+}
+
+/* ==========================================================================
+   MOBILE MENUS (PERFECT TOP DROPDOWN GLASSMORPHISM)
+   ========================================================================== */
+
+/* 1. KITA HAPUS OVERLAY HITAM-NYA */
+/* Karena mengganggu rendering backdrop-filter pada menu dropdown penuh */
+.mobile-menu-overlay {
+  display: none !important;
+}
+
+/* 2. RACIKAN BARU UNTUK MENU DROPDOWN DOWN */
+.mobile-menu-drawer {
+  position: fixed;
+  top: 78px; /* Menempel pas di bawah navbar */
+  left: 0;
+  right: 0;
+  z-index: 999;
+  
+  /* Kombinasi putih semi-transparan yang lebih solid agar memisahkan diri dari foto sawah */
+  background: rgba(255, 255, 255, 0.2); 
+  
+  /* Naikkan level blur dan kontras saturasi agar background sawah di belakangnya benar-benar nge-blur mewah */
+  backdrop-filter: blur(25px) saturate(1.8);
+  -webkit-backdrop-filter: blur(25px) saturate(1.8);
+  
+  /* Garis batas bawah transparan */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  
+  /* Logika animasi drop down smooth tanpa merusak fungsi blur */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-15px);
+  
+  /* Shadow halus ke bawah agar ada efek dimensi menumpuk di atas konten */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+  
+  transition: 
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.35s ease,
+    visibility 0.35s ease;
+}
+
+/* Saat Hamburger Menu Aktif (Buka) */
+.mobile-menu-drawer.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* 3. MENATA LINKS MENU BIAR GAK NABRAK & LEBIH RAPI */
+.mobile-menu__links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 24px; /* Memberikan ruang udara agar text tidak nempel ke pinggir */
+  background: transparent;
+}
+
+.mobile-menu__link {
+  display: block;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700; /* Dibikin tebal agar kontras di atas efek kaca */
+  color: #1c4516; /* Ubah ke warna hijau tua gelap agar sangat kontras dan mudah dibaca */
+  text-decoration: none;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+/* Efek pas menu di-klik / di-hover di mode HP */
+.mobile-menu__link:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: #386031;
+  transform: translateX(4px); /* Efek geser kanan dikit pas ditekan */
+}
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS (TABLET & MOBILE)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .navbar__links {
+    display: none; /* Sembunyikan menu deret teks desktop */
+  }
+
+  .navbar__hamburger-btn {
+    display: block; /* Tampilkan tombol hamburger */
+  }
+
+  .navbar__logo-text {
+    font-size: 18px;
+  }
+}
