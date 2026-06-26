@@ -1,208 +1,97 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
-import logoKaryaTani from '../assets/ktlogo.svg';
-import '../styles/navbar.css';
-import { Menu, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import './navbar.css';
 
 export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
 
+  // Efek Deteksi Scroll
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Efek Lock Scroll Body saat Mobile Menu Terbuka
   useEffect(() => {
     document.body.style.overflow = mobileMenu ? 'hidden' : '';
-
-    return () => {
-      document.body.style.overflow = '';
-    };
+    return () => { document.body.style.overflow = ''; };
   }, [mobileMenu]);
 
+  // Efek Auto-Close Mobile Menu kalau layar di-resize ke Desktop
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1024) {
+      if (window.innerWidth >= 769) {
         setMobileMenu(false);
       }
     };
-
     window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const menuItems = [
-    {
-      label: 'Tentang',
-      href: '#tentang',
-    },
-    {
-      label: 'Produk',
-      href: '#produk',
-    },
-    {
-      label: 'Keunggulan',
-      href: '#keunggulan',
-    },
-    {
-      label: 'Kontak',
-      href: '#kontak',
-    },
-  ];
+  const menuItems = ['Tentang', 'Produk', 'Keunggulan', 'Kontak'];
 
   return (
-    <motion.header
-      initial={{
-        y: -120,
-        opacity: 0,
-      }}
-      animate={{
-        y: 0,
-        opacity: 1,
-      }}
-      transition={{
-        duration: 0.6,
-        ease: 'easeOut',
-      }}
-      className="navbar-shell"
-    >
-      <div className="navbar-container">
-        <div className="navbar-brand">
+    <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
+      <div className="container navbar__inner">
+        
+        {/* Sisi Kiri: Logo & Brand */}
+        <a href="#" className="navbar__logo" onClick={() => setMobileMenu(false)}>
           <img
-            src={logoKaryaTani}
+            src="/favicon.svg"
             alt="Karya Tani"
-            className="navbar-logo"
+            className="navbar__logo-img"
           />
-
-          <div className="navbar-brand-text">
-            <h1 className="navbar-title">
+          <div className="navbar__brand-wrapper">
+            <span className="navbar__logo-text">
               Karya Tani
-            </h1>
-
-            <p className="navbar-subtitle">
-              Aneka Cemilan Ringan
-            </p>
+            </span>
+            <span className="navbar__subtitle">
+              Aneka Makanan Ringan
+            </span>
           </div>
-        </div>
+        </a>
 
-        <div className="navbar-actions">
-          <nav className="navbar-menu">
-            {menuItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="navbar-link"
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
+        {/* Sisi Kanan: Desktop Links */}
+        <nav className="navbar__links">
+          {menuItems.map((item) => (
+            <a key={item} href={`#${item.toLowerCase()}`} className="navbar__link">
+              {item}
+            </a>
+          ))}
+        </nav>
 
+        {/* Sisi Kanan: Hamburger Button */}
+        <div className="navbar__actions">
           <button
             type="button"
             onClick={() => setMobileMenu(!mobileMenu)}
-            className="menu-button"
+            className="navbar__hamburger-btn"
+            style={{ fontSize: "28px", fontWeight: "bold", lineHeight: "1" }}
             aria-label="Toggle Menu"
           >
-            <AnimatePresence mode="wait">
-              {mobileMenu ? (
-                <motion.div
-                  key="close"
-                  initial={{
-                    rotate: -90,
-                    opacity: 0,
-                    scale: 0.7,
-                  }}
-                  animate={{
-                    rotate: 0,
-                    opacity: 1,
-                    scale: 1,
-                  }}
-                  exit={{
-                    rotate: 90,
-                    opacity: 0,
-                    scale: 0.7,
-                  }}
-                  transition={{
-                    duration: 0.2,
-                  }}
-                >
-                  <X size={20} />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="menu"
-                  initial={{
-                    rotate: 90,
-                    opacity: 0,
-                    scale: 0.7,
-                  }}
-                  animate={{
-                    rotate: 0,
-                    opacity: 1,
-                    scale: 1,
-                  }}
-                  exit={{
-                    rotate: -90,
-                    opacity: 0,
-                    scale: 0.7,
-                  }}
-                  transition={{
-                    duration: 0.2,
-                  }}
-                >
-                  <Menu size={20} />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {mobileMenu ? '✕' : '☰'}
           </button>
         </div>
       </div>
 
-      <AnimatePresence>
-        {mobileMenu && (
-          <motion.div
-            initial={{
-              opacity: 0,
-              height: 0,
-            }}
-            animate={{
-              opacity: 1,
-              height: 'auto',
-            }}
-            exit={{
-              opacity: 0,
-              height: 0,
-            }}
-            transition={{
-              duration: 0.25,
-            }}
-            className="navbar-mobile-menu"
-          >
-            <div className="mobile-links">
-              {menuItems.map((item, index) => (
-                <motion.a
-                  key={item.label}
-                  href={item.href}
-                  className="mobile-link"
-                  onClick={() => setMobileMenu(false)}
-                  initial={{
-                    opacity: 0,
-                    x: -20,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    x: 0,
-                  }}
-                  transition={{
-                    delay: index * 0.06,
-                  }}
-                >
-                  {item.label}
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
+      {/* Mobile Dropdown Menu (Top Dropdown Glassmorphism) */}
+      <div className={`mobile-menu-drawer ${mobileMenu ? 'open' : ''}`}>
+        <div className="mobile-menu__links">
+          {menuItems.map((item) => (
+            <a
+              key={item}
+              href={`#${item.toLowerCase()}`}
+              className="mobile-menu__link"
+              onClick={() => setMobileMenu(false)}
+            >
+              {item}
+            </a>
+          ))}
+        </div>
+      </div>
+      
+      {mobileMenu && <div className="mobile-menu-overlay" onClick={() => setMobileMenu(false)} />}
+    </header>
   );
 }
